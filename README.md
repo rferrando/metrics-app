@@ -36,8 +36,21 @@ Run `rails new metrics-api --api --database=postgresql --skip-git`
 
 This setup ensures that both the frontend and backend services run in their own containers, with dependencies managed by Docker, making it easier to develop and deploy the application consistently across different environments.
 
+
 ## Decisions and Trade-offs
 
-- **Rails API**: Chosen for rapid development and ease of setting up an API with PostgreSQL.
+- **Rails API**: Chosen for rapid development and ease of setting up an API with PostgreSQL. Building an API that third parties will be consuming and using JSON to serialize the data.
 - **React**: Chosen for its component-based architecture and ease of creating interactive UIs.
+- **CORS**: Configured to allow communication between the frontend and backend.
 - **Data Fetching**: Used `axios` for making HTTP requests from React to the Rails API.
+- The ViewMetrics component allows users to select the aggregation period and fetches data from the appropriate endpoint, displaying either the raw metrics or the aggregated averages:
+  ### Aggregation Endpoints
+  - `GET /metrics`: Fetch all metrics.
+  - `GET /metrics/by_minute`: Fetch metrics aggregated by minute.
+  - `GET /metrics/by_hour`: Fetch metrics aggregated by hour.
+  - `GET /metrics/by_day`: Fetch metrics aggregated by day.
+- **Data Aggregation**: Efficiently calculating averages per minute/hour/day required careful consideration of SQL queries and potential indexing strategies. We used PostgreSQL's `DATE_TRUNC` function to group by different time periods and calculate averages.
+- **useEffect hook** Allow real time changes without refreshing the page
+
+
+## Future Improvements

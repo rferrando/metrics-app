@@ -11,6 +11,9 @@ function ViewMetric() {
     useEffect(() => {
         const fetchMetrics = async () => {
             let url = 'http://localhost:3000/metrics';
+            if (aggregation !== 'all') {
+                url += `/by_${aggregation}`;
+            }
             const response = await axios.get(url);
             setMetrics(response.data);
         };
@@ -21,6 +24,9 @@ function ViewMetric() {
     return (
         <div>
             <div>
+                <button onClick={() => setAggregation('minute')}>By Minute</button>
+                <button onClick={() => setAggregation('hour')}>By Hour</button>
+                <button onClick={() => setAggregation('day')}>By Day</button>
                 <button onClick={() => setAggregation('all')}>All</button>
             </div>
             <div><p>{JSON.stringify(metrics, null, 2)}</p></div>
