@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  metrics-api:
+    build:
+      context: ./metrics-api
+    command: bundle exec rails s -b '0.0.0.0'
+    volumes:
+      - ./metrics-api:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_NAME=metrics_app_development
+      - DATABASE_HOST=db
+
+  db:
+    image: postgres:13
+    container_name: db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_NAME=metrics-api_development
+      - DATABASE_HOST=db
+
+
+volumes:
+  postgres_data:
