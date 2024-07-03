@@ -32,3 +32,6 @@ Run `rails new metrics-api --api --database=postgresql --skip-git`
    docker-compose down
 5.Access the application:
 - Rails API: http://localhost:3000
+- React App: http://localhost:3001
+
+This setup ensures that both the frontend and backend services run in their own containers, with dependencies managed by Docker, making it easier to develop and deploy the application consistently across different environments.

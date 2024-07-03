@@ -1,6 +1,15 @@
 version: '3.8'
 
 services:
+
+  metrics-client:
+    build:
+      context: ./metrics-client
+    volumes:
+      - ./metrics-client:/app
+    ports:
+      - "3001:3000"
+
   metrics-api:
     build:
       context: ./metrics-api
