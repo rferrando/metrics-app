@@ -35,3 +35,9 @@ Run `rails new metrics-api --api --database=postgresql --skip-git`
 - React App: http://localhost:3001
 
 This setup ensures that both the frontend and backend services run in their own containers, with dependencies managed by Docker, making it easier to develop and deploy the application consistently across different environments.
+
+## Decisions and Trade-offs
+
+- **Rails API**: Chosen for rapid development and ease of setting up an API with PostgreSQL.
+- **React**: Chosen for its component-based architecture and ease of creating interactive UIs.
+- **Data Fetching**: Used `axios` for making HTTP requests from React to the Rails API.
