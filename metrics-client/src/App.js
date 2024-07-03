@@ -1,5 +1,6 @@
 import './App.css';
 import PostMetric from './components/PostMetric';
+import ViewMetric from './components/ViewMetric';
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
           <h1>Metrics App</h1>
       </header>
       <PostMetric />
+      <ViewMetric />
     </div>
   );
 }
