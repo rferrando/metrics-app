@@ -51,6 +51,8 @@ This setup ensures that both the frontend and backend services run in their own 
   - `GET /metrics/by_day`: Fetch metrics aggregated by day.
 - **Data Aggregation**: Efficiently calculating averages per minute/hour/day required careful consideration of SQL queries and potential indexing strategies. We used PostgreSQL's `DATE_TRUNC` function to group by different time periods and calculate averages.
 - **useEffect hook** Allow real time changes without refreshing the page
+- **Charts** combination of Chart.js and Luxon to hadle time data.
+  - As different metrics can have a range of values ​​with different orders of magnitude, a chart will be displayed for each metric with a Y axis adjusted to its scale.
 
 
 ## Future Improvements

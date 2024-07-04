@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import MultiChart from './MultiChart';
 
 function ViewMetric() {
     const [metrics, setMetrics] = useState({});
@@ -30,6 +31,9 @@ function ViewMetric() {
                 <button onClick={() => setAggregation('all')}>All</button>
             </div>
             <div><p>{JSON.stringify(metrics, null, 2)}</p></div>
+            <div>
+                <MultiChart metrics={metrics} />
+            </div>
         </div>
     );
 }
