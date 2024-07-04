@@ -1,7 +1,7 @@
 class MetricsController < ApplicationController
 
   def index
-    @metrics = Metric.select('timestamp AS period, name, value as average_value')
+    @metrics = Metric.by_all
     render json:  format_aggregated_data(@metrics)
   end
 
