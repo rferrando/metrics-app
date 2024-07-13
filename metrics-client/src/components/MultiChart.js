@@ -32,12 +32,12 @@ const LineChart = ({ metricKey, data }) => {
       {
         label: metricKey,
         data: data.map(item => ({
-          x: DateTime.fromISO(item.period),
+          x: DateTime.fromISO(item.timestamp),
           y: parseFloat(item.average_value)
         })),
         fill: false,
         borderColor: '#e51943',
-        tension: 0.5 // curve adjustment
+        //tension: 0.9 // curve adjustment
       }
     ],
   };
@@ -77,18 +77,16 @@ const LineChart = ({ metricKey, data }) => {
 
   return (
     <div style={{ flex: '1 1 45%', margin: '10px', backgroundColor: 'white', padding: '10px', borderRadius: '5px', 
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
-      <Line data={chartData} options={options} />
+      boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+        <Line data={chartData} options={options} />
     </div>
   );
 };
 
-const MultiChart = ({ metrics }) => {
+const MultiChart = ({ metricKey, metrics }) => {
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}> {/* organize charts in grid */}
-      {Object.keys(metrics).map((key, index) => (
-        <LineChart key={index} metricKey={key} data={metrics[key]} />
-      ))}
+    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <LineChart metricKey={metricKey} data={metrics} />
     </div>
   );
 };
