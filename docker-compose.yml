@@ -9,6 +9,8 @@ services:
       - ./metrics-client:/app
     ports:
       - "3001:3000"
+    links:
+      - metrics-api
 
   metrics-api:
     build:
@@ -18,7 +20,7 @@ services:
       - ./metrics-api:/app
     ports:
       - "3000:3000"
-    depends_on:
+    links:
       - db
     environment:
       - DATABASE_USERNAME=postgres
@@ -31,11 +33,13 @@ services:
     container_name: db
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
     environment:
-      - DATABASE_USERNAME=postgres
-      - DATABASE_PASSWORD=postgres
-      - DATABASE_NAME=metrics-api_development
-      - DATABASE_HOST=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=metrics_app_development
+      - TZ=Etc/UTC
 
 
 volumes:
