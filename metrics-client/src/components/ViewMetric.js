@@ -23,8 +23,8 @@ function ViewMetric() {
             
             const response = await axios.get(url, { params: { name: name } });
             setMetrics(response.data);
+            }
             setAggregation('')
-            } 
         };
 
         fetchMetrics();
@@ -38,7 +38,7 @@ function ViewMetric() {
                 <Form.Label column style={{display:'flex', justifyContent:'left'}}>
                     View metric values
                 </Form.Label>
-                <Col md={{ span: 3}} style={{justifyContent:'left'}}>
+                <Col md={{ span: 2}} style={{justifyContent:'left'}}>
                     <Form.Control
                         type="text"
                         placeholder="Enter metric name"
@@ -47,7 +47,7 @@ function ViewMetric() {
                         onChange={(e) => setName(e.target.value)}
                     />
                 </Col>
-                <Col md={{ span: 3}}>
+                <Col md={{ span: 4, offset: 2}}>
                     <ToggleButtonGroup type="radio" name="options" value={aggregation} onChange={handleChange}>
                         <ToggleButton id="tbg-btn-1" value={'minute'} variant="outline-danger">
                             By Minute
