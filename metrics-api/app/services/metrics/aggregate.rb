@@ -8,9 +8,9 @@ class Metrics::Aggregate
         @aggregation_state_repository = aggregation_state_repository
     end 
     
-    def call(name, period)
+    def call(name, period, start_date, end_date)
       aggregate_by_period(name, period)
-      @aggregated_metric_repository.find_by_name_and_period(name, period)
+      @aggregated_metric_repository.find_by_name_and_period_and_date_range(name, period, start_date, end_date)
     end  
   
     private

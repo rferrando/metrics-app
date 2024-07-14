@@ -31,7 +31,7 @@ function PostMetric() {
         <Form onSubmit={handleSubmit}>
             <Row className="align-items-end">
                 <Col md="2">
-                <Form.Label>Post a Metric</Form.Label>
+                <Form.Label>Post a metric</Form.Label>
                 </Col>
                 <Col md="2">
                     <Form.Group controlId="formMetricName">

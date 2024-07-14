@@ -1,11 +1,12 @@
 
 class AggregatedMetricRepository
-  def find_by_name_and_period(name, period)
+  def find_by_name_and_period_and_date_range(name, period, start_date, end_date)
     aggregate_sql = <<-SQL
       SELECT
         *
       FROM aggregated_metrics
       WHERE name = '#{name}' AND period = '#{periods[period]}'
+      AND timestamp >= '#{start_date}' and timestamp <= '#{end_date}'
       ORDER BY timestamp ASC
     SQL
 
