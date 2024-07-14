@@ -3,6 +3,7 @@ import axios from 'axios';
 import MultiChart from './MultiChart';
 import { Form, ToggleButton, ToggleButtonGroup, Container, Row, Col, InputGroup, Alert } from 'react-bootstrap';
 import DateRangeFilter from './DateRangeFilter'; 
+import ChartLegend from './ChartLegend';
 
 
 function ViewMetric() {
@@ -59,7 +60,6 @@ function ViewMetric() {
         };
 
         fetchMetrics();
-        setAggregation('')
         setStartDate(newStartDate);
         setEndDate(newEndDate);
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -110,6 +110,9 @@ function ViewMetric() {
             <Row className="justify-content-md-center">
                 <Col md="10">
                     <MultiChart metricKey={name} metrics={metrics} />
+                </Col>
+                <Col md="2">
+                    <ChartLegend name={name} aggregation={aggregation} startDate={startDate} endDate={endDate} />
                 </Col>
             </Row>
         </Container>
