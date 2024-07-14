@@ -104,9 +104,6 @@ function ViewMetric() {
                 </Alert>
             )}
 
-            <InputGroup size="sm" className="justify-content-md-center">
-                <InputGroup.Text className="text-wrap">{JSON.stringify(metrics, null, 2)}</InputGroup.Text>
-            </InputGroup>
             <Row className="justify-content-md-center">
                 <Col md="10">
                     <MultiChart metricKey={name} metrics={metrics} />
