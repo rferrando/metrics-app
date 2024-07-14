@@ -35,7 +35,7 @@ function ViewMetric() {
         const fetchMetrics = async () => {
             let url = 'http://localhost:3000/metrics';
             if (aggregation !== '' & name !== '') {
-                url += `/by_${aggregation}`;
+                url += `_aggregations/by_${aggregation}`;
                 if (!startDate && !endDate) {
                     
                     newEndDate = new Date() 
