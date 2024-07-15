@@ -9,7 +9,7 @@ import ChartLegend from './ChartLegend';
 function ViewMetric() {
     const [name, setName] = useState('');
     const [metrics, setMetrics] = useState([]);
-    const [aggregation, setAggregation] = useState(['']);
+    const [aggregation, setAggregation] = useState('');
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [errorMessage, setErrorMessage] = useState('');
