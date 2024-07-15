@@ -76,7 +76,7 @@ const LineChart = ({ metricKey, data }) => {
   };
 
   return (
-    <div style={{ flex: '1 1 45%', margin: '10px', backgroundColor: 'white', padding: '10px', borderRadius: '5px', 
+    <div style={{ flex: '1 1 100%', margin: '10px', backgroundColor: 'white', padding: '10px', borderRadius: '5px', 
       boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
         <Line data={chartData} options={options} />
     </div>
