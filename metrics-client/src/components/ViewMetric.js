@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import MultiChart from './MultiChart';
-import { Form, ToggleButton, ToggleButtonGroup, Container, Row, Col, InputGroup, Alert } from 'react-bootstrap';
+import { Form, ToggleButton, ToggleButtonGroup, Container, Row, Col, Alert } from 'react-bootstrap';
 import DateRangeFilter from './DateRangeFilter'; 
 import ChartLegend from './ChartLegend';
 
@@ -12,7 +12,8 @@ function ViewMetric() {
     const [aggregation, setAggregation] = useState('');
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [infoMessage, setInfoMessage] = useState('');
+    const [error, setError] = useState(null);
 
     const handleChange = (e) => {
         setAggregation(e);                   
@@ -24,10 +25,10 @@ function ViewMetric() {
         setStartDate(startDate);
         setEndDate(endDate);
         if ((!startDate || !endDate) & !(!startDate && !endDate)) {
-            setErrorMessage('Please select both start and end dates to filter the metrics or leave them empty to apply default time ranges');
+            setInfoMessage('Please select both start and end dates to filter the metrics or leave them empty to apply default time ranges');
             return;
             }
-        setErrorMessage('');
+            setInfoMessage('');
 
         let newStartDate = startDate;
         let newEndDate = endDate
@@ -53,9 +54,18 @@ function ViewMetric() {
                         break;
                     } 
                 } 
-            
-                const response = await axios.get(url, { params: { name: name, start_date: newStartDate, end_date: newEndDate} });
-                setMetrics(response.data);
+
+                await axios.get(url, { params: { name: name, start_date: newStartDate, end_date: newEndDate} })
+                .then(function (response) {
+                    console.log(response);
+                        setMetrics(response.data);
+                        setError(null); // Reset error if HTTP request is successful
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    // Handling unexpected network errors or server errors
+                    setError(`Error fetching metrics: ${error.message}`);
+                });
             }
         };
 
@@ -98,13 +108,14 @@ function ViewMetric() {
                 </Col>
             </Form.Group>
 
-            {errorMessage && (
+            {infoMessage && (
                 <Alert variant="info" className="p-1">
-                    <small>{errorMessage}</small>
+                    <small>{infoMessage}</small>
                 </Alert>
             )}
+            {error && <Alert variant="danger">{error}</Alert>}
 
-            <Row className="justify-content-md-center">
+            {!error && <Row className="justify-content-md-center">
                 <Col md="10">
                     <MultiChart metricKey={name} metrics={metrics} />
                 </Col>
@@ -112,6 +123,7 @@ function ViewMetric() {
                     <ChartLegend name={name} aggregation={aggregation} startDate={startDate} endDate={endDate} />
                 </Col>
             </Row>
+            }
         </Container>
     );
 }

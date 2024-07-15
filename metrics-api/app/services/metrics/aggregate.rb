@@ -9,11 +9,17 @@ class Metrics::Aggregate
     end 
     
     def call(name, period, start_date, end_date)
+      validity_checks(name, period)
       aggregate_by_period(name, period)
       @aggregated_metric_repository.find_by_name_and_period_and_date_range(name, period, start_date, end_date)
     end  
   
     private
+
+    def validity_checks(name, period)
+      raise Exceptions::MetricNotFoundError.new() unless @metric_repository.names.include?(name)
+      raise Exceptions::PeriodNotFoundError.new() unless @aggregated_metric_repository.periods[period]
+    end
   
     def aggregate_by_period(name, period)
       last_aggregated_at = @aggregation_state_repository.find_last_aggregated_at(
@@ -35,5 +41,4 @@ class Metrics::Aggregate
       end
     end
   end
-  
   

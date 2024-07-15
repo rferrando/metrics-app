@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 function PostMetric() {
     const [metric, setMetric] = useState({ name: '', value: '', timestamp: null});
+    const [error, setError] = useState(null);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -23,6 +24,14 @@ function PostMetric() {
         e.preventDefault();
         await axios.post('http://localhost:3000/metrics', {
             metric: metricToSubmit
+        })
+        .then(function (response) {
+            console.log(response);
+                setError(null); // Reset error if HTTP request is successful
+        })
+        .catch(function (error) {
+            // Handling unexpected network errors or server errors
+            setError(`Error posting a metric: ${error.message}`);
         });
     };
 
@@ -77,6 +86,8 @@ function PostMetric() {
                 </Col>
             </Row>
         </Form>
+
+        {error && <Alert variant="danger">{error}</Alert>}
     </Container>
     );
 }

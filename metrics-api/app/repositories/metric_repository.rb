@@ -3,12 +3,7 @@ class MetricRepository
   
   def create(attributes)
     begin
-      metric = Metric.create!(attributes)
-      {response: { status: 'success', data: metric }, status: :created}
-    rescue ActiveRecord::RecordInvalid => e
-      {response: { status: 'error', message: e.message, errors: e.record.errors.full_messages }, status: :unprocessable_entity}
-    rescue StandardError => e
-      {response: { status: 'error', message: 'An unexpected error occurred.' }, status: :internal_server_error}
+      Metric.create!(attributes)
     end
   end
   
