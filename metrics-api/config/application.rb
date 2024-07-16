@@ -29,9 +29,8 @@ module MetricsApi
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
-    config.autoload_paths << "app/services"
-    config.autoload_paths << "app/repositories"
-    config.autoload_paths << "test/services"
+    config.autoload_paths << Rails.root.join('app')
+    config.autoload_paths << Rails.root.join('test')
     config.active_record.default_timezone = :utc
   end
 end

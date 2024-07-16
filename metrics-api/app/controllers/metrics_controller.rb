@@ -1,8 +1,9 @@
 class MetricsController < ApplicationController
+  before_action :validate_params, only: [:create]
 
   def create
     metric = MetricRepository.new.create(metric_params)
-    render json: metric
+    render json: metric, status: :created
   end
 
   def generate_random_data
@@ -16,4 +17,9 @@ class MetricsController < ApplicationController
   def metric_params
     params.require(:metric).permit(:name, :value, :timestamp)
   end
+    
+    def validate_params
+        raise ValidationError.new("Metric name can't be blank") if metric_params[:name].blank?
+        raise ValidationError.new("Metric value can't be blank" ) if metric_params[:value].blank?
+    end
 end

@@ -1,7 +1,9 @@
+require_relative '../services/api_error'
 class ApplicationController < ActionController::API
   rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
   rescue_from ActiveRecord::RecordInvalid, with: :handle_unprocessable_entity
   rescue_from StandardError, with: :handle_internal_server_error
+  rescue_from ApiError, with: :render_api_error
 
   private
 
@@ -18,5 +20,10 @@ class ApplicationController < ActionController::API
   def handle_internal_server_error(exception)
     Rails.logger.debug("Error: #{exception.message}")
     render json: exception.message, status: :internal_server_error
+  end
+
+  def render_api_error(exception)
+    Rails.logger.debug("Error: #{exception.message}")
+    render json: exception.message, status: exception.status
   end
 end

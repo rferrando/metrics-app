@@ -1,29 +1,22 @@
 class Metrics::Aggregate
     def initialize(metric_repository: MetricRepository.new,
-        aggregated_metric_repository: AggregatedMetricRepository.new, 
+        metrics_aggregation_repository: MetricsAggregationRepository.new, 
         aggregation_state_repository: AggregationStateRepository.new)
 
         @metric_repository = metric_repository
-        @aggregated_metric_repository = aggregated_metric_repository
+        @metrics_aggregation_repository = metrics_aggregation_repository
         @aggregation_state_repository = aggregation_state_repository
     end 
     
-    def call(name, period, start_date, end_date)
-      validity_checks(name, period)
+    def call(name, period)
       aggregate_by_period(name, period)
-      @aggregated_metric_repository.find_by_name_and_period_and_date_range(name, period, start_date, end_date)
     end  
   
     private
-
-    def validity_checks(name, period)
-      raise Exceptions::MetricNotFoundError.new() unless @metric_repository.names.include?(name)
-      raise Exceptions::PeriodNotFoundError.new() unless @aggregated_metric_repository.periods[period]
-    end
   
     def aggregate_by_period(name, period)
       last_aggregated_at = @aggregation_state_repository.find_last_aggregated_at(
-        name, @aggregated_metric_repository.periods[period])
+        name, @metrics_aggregation_repository.periods[period])
       start_time = (last_aggregated_at || @metric_repository.minimum_time_registered_for_metric(name))
       .send("beginning_of_#{period}")
       end_time = @metric_repository.maximum_time_registered_for_metric(name).send("end_of_#{period}")
@@ -34,10 +27,10 @@ class Metrics::Aggregate
         name, period, start_time, end_time)
 
       if aggregate.any?
-        @aggregated_metric_repository.upsert_all_aggregated_metric(aggregate)
+        @metrics_aggregation_repository.upsert_all_aggregated_metric(aggregate)
 
         @aggregation_state_repository.update_last_aggregated_at(
-            name, @aggregated_metric_repository.periods[period], end_time)
+            name, @metrics_aggregation_repository.periods[period], end_time)
       end
     end
   end

@@ -1,5 +1,5 @@
 
-class AggregatedMetricRepository
+class MetricsAggregationRepository
   def find_by_name_and_period_and_date_range(name, period, start_date, end_date)
     aggregate_sql = <<-SQL
       SELECT
@@ -10,7 +10,7 @@ class AggregatedMetricRepository
       ORDER BY timestamp ASC
     SQL
 
-    ActiveRecord::Base.connection.execute(aggregate_sql)
+      ActiveRecord::Base.connection.execute(aggregate_sql)  
   end
 
   def periods
