@@ -26,7 +26,7 @@ ChartJS.register(
   Legend
 );
 
-const LineChart = ({ metricKey, data }) => {
+const LineChart = ({ metricKey, data, period }) => {
   const chartData = {
     datasets: [
       {
@@ -54,10 +54,12 @@ const LineChart = ({ metricKey, data }) => {
       x: {
         type: 'time', // Time scale for datetime
         time: {
-          unit: 'minute', // Time Unit
-          tooltipFormat: 'DD T', //// Luxon format string //'yyyy-MM-dd HH:mm:ss',
+          unit: period, // Time Unit
+          tooltipFormat: 'DD H', // Luxon format string
           displayFormats: {
-            minute: 'DD T', //'yyyy-MM-dd HH:mm:ss', // Format to show dates in X axis
+            minute: 'DD T', //Format to show dates in X axis,
+            hour: 'DD H',
+            day: 'DD'
           }
         },
         title: {
@@ -83,10 +85,10 @@ const LineChart = ({ metricKey, data }) => {
   );
 };
 
-const MultiChart = ({ metricKey, metrics }) => {
+const MultiChart = ({ metricKey, metrics, period }) => {
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <LineChart metricKey={metricKey} data={metrics} />
+          <LineChart metricKey={metricKey} data={metrics} period={period} />
     </div>
   );
 };
