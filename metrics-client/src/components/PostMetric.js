@@ -26,12 +26,19 @@ function PostMetric() {
             metric: metricToSubmit
         })
         .then(function (response) {
-            console.log(response);
-                setError(null); // Reset error if HTTP request is successful
+            setError(null); // Reset error if HTTP request is successful
         })
         .catch(function (error) {
-            // Handling unexpected network errors or server errors
-            setError(`Error posting a metric: ${error.message}`);
+            if (error.response) {
+                // The server responded with a status out of range 2xx
+                setError(`Error fetching metrics: ${error.response.data}`);
+              } else if (error.request) {
+                // The request was made but no response was received
+                setError(`No response received from server: ${error.message}`);
+              } else {
+                // Handling unexpected network errors or server errors
+                setError(error.message);
+              }
         });
     };
 

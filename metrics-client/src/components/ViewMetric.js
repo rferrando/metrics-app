@@ -9,10 +9,9 @@ import ChartLegend from './ChartLegend';
 function ViewMetric() {
     const [name, setName] = useState('');
     const [metrics, setMetrics] = useState([]);
-    const [aggregation, setAggregation] = useState('');
+    const [aggregation, setAggregation] = useState(null);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
-    const [infoMessage, setInfoMessage] = useState('');
     const [error, setError] = useState(null);
 
     const handleChange = (e) => {
@@ -24,18 +23,13 @@ function ViewMetric() {
     useEffect(() => {
         setStartDate(startDate);
         setEndDate(endDate);
-        if ((!startDate || !endDate) & !(!startDate && !endDate)) {
-            setInfoMessage('Please select both start and end dates to filter the metrics or leave them empty to apply default time ranges');
-            return;
-            }
-            setInfoMessage('');
 
         let newStartDate = startDate;
         let newEndDate = endDate
 
         const fetchMetrics = async () => {
             let url = 'http://localhost:3000/metrics';
-            if (aggregation !== '' & name !== '') {
+            if (aggregation) { 
                 url += `_aggregations/by_${aggregation}`;
                 if (!startDate && !endDate) {
                     
@@ -57,14 +51,20 @@ function ViewMetric() {
 
                 await axios.get(url, { params: { name: name, start_date: newStartDate, end_date: newEndDate} })
                 .then(function (response) {
-                    console.log(response);
-                        setMetrics(response.data);
-                        setError(null); // Reset error if HTTP request is successful
+                    setMetrics(response.data);
+                    setError(null); // Reset error if HTTP request is successful
                 })
                 .catch(function (error) {
-                    console.log(error);
-                    // Handling unexpected network errors or server errors
-                    setError(`Error fetching metrics: ${error.message}`);
+                    if (error.response) {
+                        // The server responded with a status out of range 2xx
+                        setError(`Error fetching metrics: ${error.response.data}`);
+                      } else if (error.request) {
+                        // The request was made but no response was received
+                        setError(`No response received from server: ${error.message}`);
+                      } else {
+                        // Handling unexpected network errors or server errors
+                        setError(error.message);
+                      }
                 });
             }
         };
@@ -73,7 +73,7 @@ function ViewMetric() {
         setStartDate(newStartDate);
         setEndDate(newEndDate);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [aggregation, startDate, endDate]);
+    }, [aggregation, startDate, endDate, name]);
 
     return (
         <Container>
@@ -108,16 +108,11 @@ function ViewMetric() {
                 </Col>
             </Form.Group>
 
-            {infoMessage && (
-                <Alert variant="info" className="p-1">
-                    <small>{infoMessage}</small>
-                </Alert>
-            )}
             {error && <Alert variant="danger">{error}</Alert>}
 
             {!error && <Row className="justify-content-md-center">
                 <Col md="10">
-                    <MultiChart metricKey={name} metrics={metrics} />
+                    <MultiChart metricKey={name} metrics={metrics} period={aggregation}/>
                 </Col>
                 <Col md="2">
                     <ChartLegend name={name} aggregation={aggregation} startDate={startDate} endDate={endDate} />
