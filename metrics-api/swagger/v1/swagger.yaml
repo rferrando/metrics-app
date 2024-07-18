@@ -1,0 +1,353 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/metrics_aggregations/by_minute":
+    get:
+      summary: Fetch aggregated metrics by minute within a date range
+      tags:
+      - Aggregations
+      parameters:
+      - name: params
+        in: query
+        required: true
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              example: cpu
+            start_date:
+              type: string
+              format: date-time
+              example: '2024-07-14T22:00:00.000Z'
+            end_date:
+              type: string
+              format: date-time
+              example: '2024-07-15T22:00:00.000Z'
+          required:
+          - name
+          - start_date
+          - end_date
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: cpu
+                    period:
+                      type: number
+                      example: 0
+                    timestamp:
+                      type: string
+                      format: date_time
+                      example: '2024-07-15T20:39:59.000Z'
+                    average_value:
+                      type: number
+                      format: float
+                      example: 45.05
+                    min_value:
+                      type: number
+                      format: float
+                      example: 30
+                    max_value:
+                      type: number
+                      format: float
+                      example: 60.1
+                    total_value:
+                      type: number
+                      format: float
+                      example: 90.1
+                    count:
+                      type: number
+                      example: 2
+                    created_at:
+                      type: string
+                      format: date_time
+                      example: '2024-07-18T12:04:40+02:00'
+                    updated_at:
+                      type: string
+                      format: date_time
+                      example: '2024-07-18T12:04:40+02:00'
+        '422':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Metric not found
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'param is missing or the value is empty: start_date'
+  "/metrics_aggregations/by_hour":
+    get:
+      summary: Fetch aggregated metrics by hour within a date range
+      tags:
+      - Aggregations
+      parameters:
+      - name: params
+        in: query
+        required: true
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              example: cpu
+            start_date:
+              type: string
+              format: date-time
+              example: '2024-07-14T22:00:00.000Z'
+            end_date:
+              type: string
+              format: date-time
+              example: '2024-07-15T22:00:00.000Z'
+          required:
+          - name
+          - start_date
+          - end_date
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: cpu
+                    period:
+                      type: number
+                      example: 1
+                    timestamp:
+                      type: string
+                      format: date_time
+                      example: '2024-07-15T20:59:59.000Z'
+                    average_value:
+                      type: number
+                      format: float
+                      example: 45.05
+                    min_value:
+                      type: number
+                      format: float
+                      example: 30
+                    max_value:
+                      type: number
+                      format: float
+                      example: 60.1
+                    total_value:
+                      type: number
+                      format: float
+                      example: 90.1
+                    count:
+                      type: number
+                      example: 2
+                    created_at:
+                      type: string
+                      format: date_time
+                      example: '2024-07-18T12:04:40+02:00'
+                    updated_at:
+                      type: string
+                      format: date_time
+                      example: '2024-07-18T12:04:40+02:00'
+        '422':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Metric not found
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'param is missing or the value is empty: start_date'
+  "/metrics_aggregations/by_day":
+    get:
+      summary: Fetch aggregated metrics by day within a date range
+      tags:
+      - Aggregations
+      parameters:
+      - name: params
+        in: query
+        required: true
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              example: cpu
+            start_date:
+              type: string
+              format: date-time
+              example: '2024-07-14T22:00:00.000Z'
+            end_date:
+              type: string
+              format: date-time
+              example: '2024-07-15T22:00:00.000Z'
+          required:
+          - name
+          - start_date
+          - end_date
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: cpu
+                    period:
+                      type: number
+                      example: 2
+                    timestamp:
+                      type: string
+                      format: date_time
+                      example: '2024-07-15T23:59:59.000Z'
+                    average_value:
+                      type: number
+                      format: float
+                      example: 45.05
+                    min_value:
+                      type: number
+                      format: float
+                      example: 30
+                    max_value:
+                      type: number
+                      format: float
+                      example: 60.1
+                    total_value:
+                      type: number
+                      format: float
+                      example: 90.1
+                    count:
+                      type: number
+                      example: 2
+                    created_at:
+                      type: string
+                      format: date_time
+                      example: '2024-07-18T12:04:40+02:00'
+                    updated_at:
+                      type: string
+                      format: date_time
+                      example: '2024-07-18T12:04:40+02:00'
+        '422':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Metric not found
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'param is missing or the value is empty: start_date'
+  "/metrics/generate_random_data":
+    post:
+      summary: Generate random values for 3 kind of metrics
+      tags:
+      - Metrics
+      parameters:
+      - name: num_metrics
+        in: path
+        description: number of metrics to be generated
+        example: 100
+        required: true
+        schema:
+          type: number
+      responses:
+        '200':
+          description: successful
+  "/metrics":
+    post:
+      summary: Creates a metric
+      tags:
+      - Metrics
+      parameters: []
+      responses:
+        '201':
+          description: created
+        '400':
+          description: bad request
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: cpu
+                value:
+                  type: number
+                  format: float
+                  example: 75.55
+                timestamp:
+                  type: string
+                  format: date-time
+                  default: '2024-07-18T12:04:40+02:00'
+                  example: ''
+              required:
+              - name
+              - value
+        required: true
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000

@@ -10,16 +10,11 @@
 # Ignore all logfiles and tempfiles.
 log
 tmp
-/log/*
-/tmp/*
-!/log/.keep
-!/tmp/.keep
+reports
 vendor
-/vendor/*
-!/vendor/.keep
 lib
-/lib/*
-!/lib/.keep
+.rspec
+
 
 
 .byebug_history
