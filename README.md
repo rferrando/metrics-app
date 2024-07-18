@@ -19,13 +19,12 @@ This application allows users to post and visualize metrics with a timestamp, na
     - Gemfile: application dependencies
     - Dockerfile: docker definitions and scripts to build the required images
 - metrics-client: React application
-    - public: index.htmls as application entrypoint
+    - public: index.html as application entrypoint
     - src:
-        - components: 
-        - App: 
+        - components: custom “components”, reusable UI elements of the app
+        - App: main component of the app
     - package.json: application dependencies
-    - docker: docker definitions to build the required images
-- Makefile: make definitions for building, test and local execution
+    - Dockerfile: docker definitions to build the required images
 ```
 
 ## Prerequisites
