@@ -1,4 +1,3 @@
-
 class MetricRepository
 
   def initialize(client: ActiveRecord::Base.connection)
@@ -9,10 +8,6 @@ class MetricRepository
     begin
       Metric.create!(attributes)
     end
-  end
-  
-  def names
-    Metric.distinct.pluck(:name)
   end
 
   def minimum_time_registered_for_metric(name)
@@ -50,4 +45,3 @@ class MetricRepository
     @client.execute(aggregate_sql)
   end
 end
-  

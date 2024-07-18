@@ -17,6 +17,7 @@ return (
               endDate={endDate}
               placeholderText="Start Date"
               className="form-control"
+              dateFormat="MMMM d, yyyy"
             />
           </Form.Group>
         </Col>
@@ -30,6 +31,7 @@ return (
               endDate={endDate}
               placeholderText="End Date"
               className="form-control"
+              dateFormat="MMMM d, yyyy"
             />
           </Form.Group>
         </Col>

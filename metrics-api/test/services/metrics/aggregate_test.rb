@@ -108,6 +108,10 @@ class AggregateTest < ActiveSupport::TestCase
     assert_difference 'AggregatedMetric.count', 1 do
       Metrics::Aggregate.new.call('cpu', 'minute')
     end
+
+    local_date = Time.new(2024, 8, 10, 12, 30, 0, @local_timezone)
+    Time.stubs(:current).returns(local_date.getutc)
+    Time.stubs(:now).returns(local_date.getutc)
     Metric.create(name: 'cpu', value: 60, timestamp: '2024-06-30T18:26:30.000Z')
 
     Metrics::Aggregate.new.call('cpu', 'minute')
@@ -129,6 +133,10 @@ class AggregateTest < ActiveSupport::TestCase
       assert_difference 'AggregatedMetric.count', 1 do
         Metrics::Aggregate.new.call('cpu', 'minute')
       end
+
+      local_date = Time.new(2024, 8, 10, 12, 30, 0, @local_timezone)
+      Time.stubs(:current).returns(local_date.getutc)
+      Time.stubs(:now).returns(local_date.getutc)
       Metric.create(name: 'cpu', value: 60, timestamp: '2024-06-30T18:29:30.000Z')
 
       Metrics::Aggregate.new.call('cpu', 'minute')
@@ -209,4 +217,3 @@ class AggregateTest < ActiveSupport::TestCase
     end
   end
 end
-

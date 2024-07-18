@@ -50,7 +50,10 @@ function ViewMetric() {
                 setEndDate(newEndDate);
             } 
 
-            await axios.get(url, { params: { name: name, start_date: newStartDate, end_date: newEndDate} })
+            const start_date_str = `${newStartDate.getFullYear()}-${newStartDate.getMonth() + 1}-${newStartDate.getDate()}`;
+            const end_date_str = `${newEndDate.getFullYear()}-${newEndDate.getMonth() + 1}-${newEndDate.getDate()}`;
+
+            await axios.get(url, { params: { name: name, start_date: start_date_str, end_date: end_date_str} })
             .then(function (response) {
                 setMetrics(response.data);
                 setError(null); // Reset error if HTTP request is successful
