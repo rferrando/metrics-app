@@ -37,11 +37,11 @@ class MetricsAggregationsController < ApplicationController
     private
     
     def validate_params
-        puts("PARAMS: #{params}")
-        puts("NAMES: #{@metric_repo}")
+        params.require(:name)
+        params.require(:start_date)
+        params.require(:end_date)
+
         raise ValidationError.new("Metric name not found") unless @metric_repo.names.include?(params[:name])
-        raise ValidationError.new("Start date can't be blank" ) if params[:start_date].blank?
-        raise ValidationError.new("End date can't be blank" ) if params[:end_date].blank?
         raise ValidationError.new("Start date can be greater than End date" ) unless valid_date_range(params[:start_date], params[:end_date])
     end
 

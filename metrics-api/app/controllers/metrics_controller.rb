@@ -1,3 +1,4 @@
+require 'time'
 class MetricsController < ApplicationController
   before_action :validate_params, only: [:create]
   
@@ -12,8 +13,8 @@ class MetricsController < ApplicationController
 
   def generate_random_data
     num_metrics = params[:num_metrics].to_i
-    random_metrics = Metrics::GenerateRandomData.new(repository: @repo).call(num_metrics)
-    render json: random_metrics
+    Metrics::GenerateRandomData.new(repository: @repo).call(num_metrics)
+    render json: { message: 'Random metrics generated successfully.' }
   end
 
   private
@@ -25,5 +26,13 @@ class MetricsController < ApplicationController
     def validate_params
         raise ValidationError.new("Metric name can't be blank") if metric_params[:name].blank?
         raise ValidationError.new("Metric value can't be blank" ) if metric_params[:value].blank?
+        raise ValidationError.new("Timestamp should be a DateTime" ) unless valid_time?(metric_params[:timestamp])
+    end
+
+    def valid_time?(datetime)
+      Time.parse(datetime) if datetime
+      true
+    rescue => e
+      false
     end
 end

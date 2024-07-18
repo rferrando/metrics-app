@@ -31,7 +31,12 @@ function PostMetric() {
         .catch(function (error) {
             if (error.response) {
                 // The server responded with a status out of range 2xx
-                setError(`Error fetching metrics: ${error.response.data}`);
+                let message = error.response.data
+                    if (typeof(message) != "string") {
+                        message = error.response.data.error
+                    }
+                    
+                    setError(`Error posting metrics: ${message}`);
               } else if (error.request) {
                 // The request was made but no response was received
                 setError(`No response received from server: ${error.message}`);

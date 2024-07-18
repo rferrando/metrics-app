@@ -9,6 +9,6 @@ end
 
 class ValidationError < ApiError
   def initialize(message = 'Validation failed:')
-    super(status: 500, message: message)
+    super(status: 422, message: message)
   end
 end

@@ -3,7 +3,7 @@ import { Form, Row, Col } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const DateRangeFilter = ({ startDate, endDate, setStartDate, setEndDate  }) => {
+const DateRangeFilter = ({ startDate, endDate, onStartDateChange, onEndDateChange  }) => {
 return (
     <Form>
       <Row>
@@ -11,7 +11,7 @@ return (
           <Form.Group controlId="formSearchStartDate">
             <DatePicker
               selected={startDate}
-              onChange={date => setStartDate(date)}
+              onChange={onStartDateChange}
               selectsStart
               startDate={startDate}
               endDate={endDate}
@@ -24,7 +24,7 @@ return (
           <Form.Group controlId="formSearchEndDate">
             <DatePicker
               selected={endDate}
-              onChange={date => setEndDate(date)}
+              onChange={onEndDateChange}
               selectsEnd
               startDate={startDate}
               endDate={endDate}
