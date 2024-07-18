@@ -5,14 +5,14 @@ class Metrics::GenerateRandomData
     'temp' => (0..105)
   }.freeze
 
-  def initialize(metric_repository: MetricRepository.new)
-    @metric_repository = metric_repository
+  def initialize(repository: MetricRepository.new)
+    @repository = repository
   end
 
   def call(num_metrics)
     num_metrics = num_metrics || 0
     num_metrics.times do
-      @metric_repository.create(generate_random_metric)
+      @repository.create(generate_random_metric)
     end
   end
 

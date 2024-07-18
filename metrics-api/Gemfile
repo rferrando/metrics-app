@@ -43,6 +43,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 group :test do
   gem 'database_cleaner'
   gem 'minitest'
+  gem 'rails-controller-testing'
   gem 'minitest-stub-const'
   gem 'mocha'
   gem 'simplecov', require: false

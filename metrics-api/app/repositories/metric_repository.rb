@@ -1,5 +1,9 @@
 
 class MetricRepository
+
+  def initialize(client: ActiveRecord::Base.connection)
+    @client = client
+  end  
   
   def create(attributes)
     begin
@@ -43,7 +47,7 @@ class MetricRepository
       GROUP BY name, m.#{period}_precision
     SQL
 
-    ActiveRecord::Base.connection.execute(aggregate_sql)
+    @client.execute(aggregate_sql)
   end
 end
   

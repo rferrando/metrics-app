@@ -1,5 +1,10 @@
 
 class MetricsAggregationRepository
+
+  def initialize(client: ActiveRecord::Base.connection)
+    @client = client
+  end  
+
   def find_by_name_and_period_and_date_range(name, period, start_date, end_date)
     aggregate_sql = <<-SQL
       SELECT
@@ -10,7 +15,7 @@ class MetricsAggregationRepository
       ORDER BY timestamp ASC
     SQL
 
-      ActiveRecord::Base.connection.execute(aggregate_sql)  
+    @client.execute(aggregate_sql)  
   end
 
   def periods
@@ -51,7 +56,7 @@ class MetricsAggregationRepository
       DO UPDATE SET #{updates}
     SQL
 
-    ActiveRecord::Base.connection.execute(sql)
+    @client.execute(sql)
   end
 end
   
