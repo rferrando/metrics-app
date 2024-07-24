@@ -98,10 +98,9 @@ The request will populate the application with random metrics with name: `cpu`, 
   - `ViewMetric`: allow users to select the period (minute, hour or day) to visualize in a timeline chart the averages values of a selected metric according to the resolution time selected. A range of dates must be selected for which the time series of average values will be displayed. It is a first measure to prevent an endpoint from causing troubles, especially if the response exceeds the limits of the server or client, by allowing users to filter data before making the request to reduce the amount of data returned.
 - Relying entirely on the Bootstrap stylesheet by importing `React-Bootstrap`
 - For **posting and fetching data**: uses `axios` for making HTTP requests from React to the Rails API.
-- To make **charts**, uses `react-chartjs-2` which is wrapper for `Chart.js` and `Luxon` to hadle time data.
+- To draw **charts**, uses `react-chartjs-2` which is wrapper for `Chart.js` and `Luxon` to hadle time data.
 As different metrics can have a range of values ​​with different orders of magnitude, a chart will be displayed with a Y axis adjusted to its scale and X axis adjusted to the period choosen.
 - Errors Handling: An error alert is placed inside both components to show the HTTP code-based error handling being done from the rails application. In a productive environment, other approaches should be used that allow notifying the user in a more graceful way.
-- Testing: only tested the classes with more complex logic (Metrics::Aggregate Service and MetricsAggregationsController)
 
 - For the backend **Rails API**: Chosen for rapid development and ease of setting up an API with PostgreSQL. Building an API that third parties will be consuming and using JSON to serialize the data.
 - Handling **Cross-Origin Resource Sharing (CORS)**: Configured to allow communication between the frontend and backend.
@@ -111,10 +110,10 @@ As different metrics can have a range of values ​​with different orders of m
   - `GET /metrics_aggregations/by_hour`: Fetch aggregated metrics y hour.
   - `GET /metrics_aggregations/by_day`: Fetch aggregated metrics by day.
 - Documenting the endpoints with OpenAPI Specification by using gem `rswag`. This tool integrates Swagger with Rails, allowing you to generate and maintain your API documentation efficiently. After running rails server the URL http://localhost:3000/api-docs behold the Swagger UI documentation of all endpoints.
-- **Data Aggregation**: In the case of our application, the aggregation functions are static (based on the timestamp),
-so to efficiently compute the averages per minute/hour/day we use an approach based on a cache at database level, with incremental behavior, by not re-computing the partitions (name, period, timestamp) that have not changed.
+- **Data Aggregation**: In the case of our application, the aggregation functions are static (based on the timestamp), so to efficiently compute the averages per minute/hour/day we use an approach based on a cache at database level, with incremental behavior, by not re-computing the partitions (name, period, timestamp) that have not changed.
 - Applying **Service-Repository pattern** to have  more flexible, maintenable and testable application
 - To centralize **error handling** in the Rails application, the app delegates on ApplicationController to handle errors and send a JSON with the message errors.Also a custom exception has been defined to handle 4XX errors during controllers validation.
+- Testing: only tested the classes with more complex logic (Metrics::Aggregate Service and MetricsAggregationsController)
 
 ## Data Model Design
 

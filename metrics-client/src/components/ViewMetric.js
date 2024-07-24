@@ -8,10 +8,13 @@ import ChartLegend from './ChartLegend';
 
 function ViewMetric() {
     const [name, setName] = useState('');
+    const [confirmedName, setConfirmedName] = useState('');
     const [metrics, setMetrics] = useState([]);
     const [aggregation, setAggregation] = useState(null);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
+    const [fromDate, setFromDate] = useState(null);
+    const [toDate, setToDate] = useState(null);
     const [error, setError] = useState(null);
 
     const handleStartDateChange = (date) => {
@@ -52,6 +55,9 @@ function ViewMetric() {
 
             const start_date_str = `${newStartDate.getFullYear()}-${newStartDate.getMonth() + 1}-${newStartDate.getDate()}`;
             const end_date_str = `${newEndDate.getFullYear()}-${newEndDate.getMonth() + 1}-${newEndDate.getDate()}`;
+            setConfirmedName(name);
+            setFromDate(newStartDate);
+            setToDate(newEndDate);
 
             await axios.get(url, { params: { name: name, start_date: start_date_str, end_date: end_date_str} })
             .then(function (response) {
@@ -115,10 +121,10 @@ function ViewMetric() {
 
             {!error && <Row className="justify-content-md-center">
                 <Col md="10">
-                    <MultiChart metricKey={name} metrics={metrics} period={aggregation}/>
+                    <MultiChart metricKey={confirmedName} metrics={metrics} period={aggregation}/>
                 </Col>
                 <Col md="2">
-                    <ChartLegend name={name} aggregation={aggregation} startDate={startDate} endDate={endDate} />
+                    <ChartLegend name={confirmedName} aggregation={aggregation} startDate={fromDate} endDate={toDate} />
                 </Col>
             </Row>
             }
